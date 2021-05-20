@@ -71,7 +71,7 @@ describe('API Routes', () => {
         .set('Authorization', user.token);
       console.log(response.text);
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expect.arrayContaining(postResponse)
+      expect(response.body).toEqual(expect.arrayContaining(quote, postResponse)
       );  
 
     });
