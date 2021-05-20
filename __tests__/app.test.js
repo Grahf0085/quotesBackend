@@ -32,48 +32,16 @@ describe('API Routes', () => {
   });
 
 
-  describe('/api/quotes', () => {
-    // let user;
-
-    // beforeAll(async () => {
-    //   execSync('npm run recreate-tables');
-
-    //   const response = await request
-    //     .post('/api/auth/signup')
-    //     .send({
-    //       name: 'Me the User',
-    //       email: 'me@user.com',
-    //       password: 'password'
-    //     });
-
-    //   expect(response.status).toBe(200);
-
-    //   user = response.body;
-    // });
-
-    // append the token to your requests:
-    //  .set('Authorization', user.token);
-    const quote = {
-      quote: 'What\'s important at the grocery store is just as important in engines or medical systems. If the customer isn\'t satisfied, if the stuff is getting stale, if the shelf isn\'t right, or if the offerings aren\'t right, it\'s the same thing. You manage it like a small organization. You don\'t get hung up on zeros.',
-      author: 'Jack Welch',
-      tags: ['medical'],
-      favorited: false
-    };
+  const expectedQuote = {
+    quote: expect.anything(),
+    author: expect.anything(),
+    tags: [expect.anything()],
+    favorited: false
+  };
    
-    it('GET /api/quotes', async () => {
-      console.log(user);
-      const postResponse = await request.post('/api/quotes')
-        .set('Authorization', user.token)
-        .send(quote);
+  it('test format function', async () => {
+    const result = formattedQuotes(quotes);
+    expect(expectedQuote).toEqual(result[0]);
 
-      const response = await request
-        .get('/api/quotes')
-        .set('Authorization', user.token);
-      console.log(response.text);
-      expect(response.status).toBe(200);
-      expect(response.body).toEqual(expect.arrayContaining(quote, postResponse)
-      );  
-
-    });
   });
 });
