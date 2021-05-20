@@ -72,7 +72,7 @@ describe('API Routes', () => {
 
     });
 
-    it.skip('GET my /api/me/favorites only returns my favorites', async () => {
+    it('GET my /api/me/favorites only returns my favorites', async () => {
       // this is setup so that there is a favorite belong to someone else in the db
       const otherResponse = await request
         .post('/api/favorites')
@@ -80,7 +80,8 @@ describe('API Routes', () => {
         .send({
           quote: expect.anything(), //FILL IN!!!!!!!!!!!!
           author: expect.anything(),
-          tags: expect.anything()
+          tags: expect.anything(),
+          favorited: true
         });
 
       expect(otherResponse.status).toBe(200);
@@ -109,7 +110,7 @@ describe('API Routes', () => {
       favorited: false
     };
 
-    it.skip('test format function', async () => {
+    it('test format function', async () => {
       const result = formattedQuotes(quotes);
       expect(expectedQuote).toEqual(result[0]);
 
