@@ -12,17 +12,26 @@ async function run() {
     await client.query(` 
       CREATE TABLE users (
         id SERIAL PRIMARY KEY NOT NULL,
-        name VARCHAR(512) NOT NULL,
-        email VARCHAR(512) NOT NULL,
-        hash VARCHAR(512) NOT NULL
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        hash TEXT NOT NULL
       );
     
       CREATE TABLE quotes (
         id SERIAL PRIMARY KEY NOT NULL,
-        quote VARCHAR(512) NOT NULL,
+        quote TEXT NOT NULL,
         author VARCHAR(128) NOT NULL,
         tags VARCHAR(1024) NOT NULL,
         favorited BOOLEAN DEFAULT FALSE NOT NULL,
+        user_id INTEGER NOT NULL REFERENCES users(id)
+      );
+
+      CREATE TABLE favorites (
+        id SERIAL PRIMARY KEY NOT NULL,
+        quote TEXT NOT NULL, 
+        author VARCHAR(1024) NOT NULL,
+        tags VARCHAR(1024),
+        favorited BOOLEAN DEFAULT TRUE NOT NULL,
         user_id INTEGER NOT NULL REFERENCES users(id)
       );
     `);
