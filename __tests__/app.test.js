@@ -31,7 +31,7 @@ describe('API Routes', () => {
       expect(response.status).toBe(200);
 
       user = response.body;
-      console.log(response.body);
+      
       const response2 = await request
         .post('/api/auth/signup')
         .send({
