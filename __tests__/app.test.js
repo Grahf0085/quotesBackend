@@ -31,7 +31,7 @@ describe('API Routes', () => {
       expect(response.status).toBe(200);
 
       user = response.body;
-      
+
       const response2 = await request
         .post('/api/auth/signup')
         .send({
@@ -100,6 +100,18 @@ describe('API Routes', () => {
 
       expect(response2.status).toBe(200);
       expect(response2.body).toEqual([otherFavorite]);
+
+    });
+
+    it('DELETE favorite to /api/favorites/:id', async () => {
+
+      const response = await request
+        .delete(`/api/favorites/${favorite.id}`)
+        .set('Authorization', user.token)
+        .send(favorite);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(favorite);
 
     });
 
