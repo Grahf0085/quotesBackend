@@ -2,7 +2,10 @@
 import client from '../lib/client.js';
 // import our seed data:
 import users from './users.js';
-import cats from './cats.js';
+import unmungedQuotes from './quotes.js';
+import { formattedQuotes } from '../lib/utils.js';
+
+const quotes = formattedQuotes(unmungedQuotes);
 
 run();
 
@@ -24,12 +27,12 @@ async function run() {
     const user = data[0].rows[0];
 
     await Promise.all(
-      cats.map(cat => {
+      quotes.map(quote => {
         return client.query(`
-        INSERT INTO cats (name, type, url, year, lives, is_sidekick, user_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO quotes (quote, author, tags, favorited, user_id)
+        VALUES ($1, $2, $3, $4, $5)
         `,
-        [cat.name, cat.type, cat.url, cat.year, cat.lives, cat.isSidekick, user.id]);
+        [quote.quote, quote.author, quote.tags, quote.favorited, user.id]);
       })
     );
     

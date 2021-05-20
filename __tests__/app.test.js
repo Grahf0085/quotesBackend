@@ -13,6 +13,25 @@ describe('API Routes', () => {
     return client.end();
   });
 
+  let user;
+
+  beforeAll(async () => {
+    execSync('npm run recreate-tables');
+
+    const response = await request
+      .post('/api/auth/signup')
+      .send({
+        name: 'Quote Lover',
+        email: 'lover@quotes.com',
+        password: 'sekritquotes'
+      });
+
+    expect(response.status).toBe(200);
+
+    user = response.body;
+  });
+
+
   describe('/api/quotes', () => {
     // let user;
 
@@ -41,11 +60,20 @@ describe('API Routes', () => {
       favorited: false
     };
    
-    it('munges quote data', async () => {
-      const output = formattedQuotes(quotes.quotes);
-      
-      expect(output).toEqual(quote);
-    });
+    it('GET /api/quotes', async () => {
+      console.log(user);
+      const postResponse = await request.post('/api/quotes')
+        .set('Authorization', user.token)
+        .send(quote);
 
+      const response = await request
+        .get('/api/quotes')
+        .set('Authorization', user.token);
+      console.log(response.text);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expect.arrayContaining(postResponse)
+      );  
+
+    });
   });
 });
